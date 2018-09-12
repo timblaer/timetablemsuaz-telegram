@@ -1,18 +1,27 @@
 {
-  "name": "t3bot",
-  "version": "1.0.0",
+  "name": "timetablemsuaz-telegram",
+  "version": "0.5.0",
   "description": "t3 bot",
   "main": "index.js",
   "scripts": {
     "start": "nodejs index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Teymur Bayramov",
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.10",
     "node-fetch": "^2.1.2",
     "node-telegram-bot-api": "^0.30.0",
     "querystring": "^0.2.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timblaer/timetablemsuaz-telegram.git"
+  },
+  "bugs": {
+    "url": "https://github.com/timblaer/timetablemsuaz-telegram/issues"
+  },
+  "homepage": "https://github.com/timblaer/timetablemsuaz-telegram#readme"
 }
