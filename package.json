@@ -1,0 +1,18 @@
+{
+  "name": "t3bot",
+  "version": "1.0.0",
+  "description": "t3 bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodejs index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "node-fetch": "^2.1.2",
+    "node-telegram-bot-api": "^0.30.0",
+    "querystring": "^0.2.0"
+  }
+}
