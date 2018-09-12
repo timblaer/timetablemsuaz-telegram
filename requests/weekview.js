@@ -94,7 +94,7 @@ const weekview = async (cookie, reqData) => {
     );
 
     const body = await step_1.text();
-    const $ = ch.load(body, {decodeEntities: false});
+    const $ = ch.load(body.replace("&nbsp;", ""), {decodeEntities: false});
     const table = $("td[class=c_top]");
     const table_notes = $('td[class="c_top c_right"]');
 
