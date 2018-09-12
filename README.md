@@ -12,7 +12,7 @@ Documentation will follow.
 * Capable hands
 
 ### I cloned this repository. What's next?
-First, you must install all dependencies by typing ```npm install``` in the directory you cloned repo to. Then, you should setup environment variables and type ```npm start```. Congrats! You launched bot by yourself.
+First, you must install all dependencies by typing ```npm install``` in the directory you cloned repo into. Then, you should setup environment variables and type ```npm start```. Congrats! You launched bot by yourself.
 
 
 ## По-русски

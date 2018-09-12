@@ -6,8 +6,6 @@ const go = require('./go.js');
 
 const weeklist = require('./weeklist.js');
 
-//какой-то код, мне не нравится, но работает
-
 const MAX_LESSON_COUNT = 5;
 
 const cleanString = (string, separator) => string
@@ -102,9 +100,6 @@ const weekview = async (cookie, reqData) => {
 
     const parsed = parseWV($, table, table_notes);
 
-    console.log('123', parsed);
-
-    // console.log(body);
     return { parsed, cookie };
 }
 
