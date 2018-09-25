@@ -115,7 +115,7 @@ const sendWeekview = (chatId) => {
         const parsed = data.parsed;
         const week = parsed.find(x => x.weekTitle === weekTitle);
         if(week === undefined) {
-            bot.sendMessage(chatId, 'Упс, ошибочка!');
+            bot.sendMessage(chatId, 'Расписание не найдено');
             delete users[chatId];
             selectFaculty(chatId);
 
@@ -231,9 +231,10 @@ bot.on('message', (msg) => {
     if(msg.text == $_.BTN_ALL_WEEKS) {
         bot.sendMessage(chatId, 'Секундочку...', {
             reply_markup: {
-                remove_keyboard: true
+                keyboard: [cancelBtn],
+                one_time_keyboard: true
             }
-        })
+        });
         return safeSelect(chatId, selectWeekAll)(chatId)
     }
 

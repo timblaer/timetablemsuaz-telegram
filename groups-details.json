@@ -19,8 +19,16 @@
       "profId": 11,
       "courseId": 1
     },
-    "315": {
-      "profId": 11,
+    "315 FX": {
+      "profId": 14,
+      "courseId": 4
+    },
+    "315 NX": {
+      "profId": 12,
+      "courseId": 4
+    },
+    "315 ORG": {
+      "profId": 13,
       "courseId": 4
     },
     "316": {
@@ -59,171 +67,155 @@
       "profId": 29,
       "courseId": 2
     },
-    "117RU": {
+    "117 RU": {
       "profId": 3,
       "courseId": 2
     },
-    "116RU": {
+    "116 RU": {
       "profId": 3,
       "courseId": 3
     },
-    "115RU": {
+    "115 RU": {
       "profId": 3,
       "courseId": 4
     },
-    "118RU": {
+    "118 RU": {
       "profId": 3,
       "courseId": 1
     },
-    "116SPA": {
+    "116 SPA": {
       "profId": 4,
       "courseId": 3
     },
-    "118SPA": {
+    "118 SPA": {
       "profId": 4,
       "courseId": 1
     },
-    "116FRA": {
+    "116 FRA": {
       "profId": 5,
       "courseId": 3
     },
-    "118FRA": {
+    "118 FRA": {
       "profId": 5,
       "courseId": 1
     },
-    "117ENG": {
+    "117 ENG": {
       "profId": 6,
       "courseId": 2
     },
-    "115ENG": {
+    "115 ENG": {
       "profId": 6,
       "courseId": 4
     },
-    "117ITA": {
+    "117 ITA": {
       "profId": 7,
       "courseId": 2
     },
-    "115ITA": {
+    "115 ITA": {
       "profId": 7,
       "courseId": 4
     },
-    "517MND": {
+    "517 MD": {
       "profId": 1,
       "courseId": 2
     },
-    "516MND": {
+    "516 MD": {
       "profId": 1,
       "courseId": 3
     },
-    "515MND": {
+    "515 MD": {
       "profId": 1,
       "courseId": 4
     },
-    "518MND": {
+    "518 MD": {
       "profId": 1,
       "courseId": 1
     },
-    "517ECO": {
+    "517 EK": {
       "profId": 2,
       "courseId": 2
     },
-    "516ECO": {
+    "516 EK": {
       "profId": 2,
       "courseId": 3
     },
-    "515ECO": {
+    "515 EK": {
       "profId": 2,
       "courseId": 4
     },
-    "518ECO": {
+    "518 EK": {
       "profId": 2,
       "courseId": 1
     },
-    "117M-RU": {
+    "M117 RU": {
       "profId": 22,
       "courseId": 2
     },
-    "118M-RU": {
+    "M118 RU": {
       "profId": 22,
       "courseId": 1
     },
-    "118M-SPA": {
+    "M118 SPA": {
       "profId": 25,
       "courseId": 1
     },
-    "118M-FRA": {
+    "M118 FRA": {
       "profId": 26,
       "courseId": 1
     },
-    "117M-ENG": {
+    "M117 ENG": {
       "profId": 23,
       "courseId": 2
     },
-    "117M-ITA": {
+    "M117 ITA": {
       "profId": 24,
       "courseId": 2
     },
-    "217M": {
+    "M217": {
       "profId": 28,
       "courseId": 2
     },
-    "218M": {
+    "M218": {
       "profId": 28,
       "courseId": 1
     },
-    "317M": {
-      "profId": 27,
-      "courseId": 2
-    },
-    "318M": {
-      "profId": 27,
-      "courseId": 1
-    },
-    "317M-PHY": {
-      "profId": 17,
-      "courseId": 2
-    },
-    "318M-PHY": {
+    "M318 FX": {
       "profId": 17,
       "courseId": 1
     },
-    "317M-ORG": {
+    "M317 ORG": {
       "profId": 18,
       "courseId": 2
     },
-    "318M-ORG": {
+    "M318 ORG": {
       "profId": 18,
       "courseId": 1
     },
-    "317M-OIL": {
-      "profId": 19,
-      "courseId": 2
-    },
-    "318M-OIL": {
+    "M318 NX": {
       "profId": 19,
       "courseId": 1
     },
-    "417M-SOC": {
-      "profId": 21,
+    "M417 SP": {
+      "profId": 32,
       "courseId": 2
     },
-    "418M-SOC": {
+    "M418 SP": {
       "profId": 21,
       "courseId": 1
     },
-    "417M-DEV": {
+    "M417 PR": {
       "profId": 31,
       "courseId": 2
     },
-    "418M-DEV": {
+    "M418 PR": {
       "profId": 31,
       "courseId": 1
     },
-    "517M-MND": {
+    "M517 MD": {
       "profId": 30,
       "courseId": 2
     },
-    "518M-MND": {
+    "M518 MD": {
       "profId": 30,
       "courseId": 1
     }
