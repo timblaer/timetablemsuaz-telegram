@@ -59,21 +59,21 @@ const getWeeklistBtns = (chatId) => {
     return Promise.resolve(actualWeekListBtns);
 };
 
-const selectFaculty = (chatId) => bot.sendMessage(chatId, 'Факультет...', {
+const selectFaculty = (chatId) => bot.sendMessage(chatId, resStrs.faculty, {
     reply_markup: {
         keyboard: facultiesKeyboard, 
         one_time_keyboard: true
     }
 });
 
-const selectGroup = (chatId, facultyNumber) => bot.sendMessage(chatId, 'Группа...', {
+const selectGroup = (chatId, facultyNumber) => bot.sendMessage(chatId, resStrs.group, {
     reply_markup: {
         keyboard: [...groupsList[facultyNumber], cancelBtn], 
         one_time_keyboard: true
     }
 });
 
-const selectWeekDefault = (chatId) => bot.sendMessage(chatId, 'Неделя...', {
+const selectWeekDefault = (chatId) => bot.sendMessage(chatId, resStrs.week, {
     reply_markup: {
         keyboard: [[utils.calculateWeek()], [utils.calculateWeek(1)], [$_.BTN_ALL_WEEKS, ...cancelBtn]],
         one_time_keyboard: true
@@ -82,7 +82,7 @@ const selectWeekDefault = (chatId) => bot.sendMessage(chatId, 'Неделя...',
 
 const selectWeekAll = (chatId) => {
     return getWeeklistBtns(chatId).then(list => {
-        bot.sendMessage(chatId, 'Неделя...', {
+        bot.sendMessage(chatId, resStrs.week, {
             reply_markup: {
                 keyboard: [...list, cancelBtn],
                 one_time_keyboard: true
@@ -91,7 +91,7 @@ const selectWeekAll = (chatId) => {
     })
 }
 
-const informAboutPreparation = (chatId) => bot.sendMessage(chatId, `Расписание будет отправлено, как только оно будет готово! Группа ${users[chatId].group} (${users[chatId].week})`, {
+const informAboutPreparation = (chatId) => bot.sendMessage(chatId, `${resStrs.prepInfoPrefix} / ${users[chatId].group} (${users[chatId].week})`, {
         reply_markup: {
             keyboard: [okBtn, cancelBtn],
             one_time_keyboard: true,
@@ -115,7 +115,7 @@ const sendWeekview = (chatId) => {
         const parsed = data.parsed;
         const week = parsed.find(x => x.weekTitle === weekTitle);
         if(week === undefined) {
-            bot.sendMessage(chatId, 'Расписание не найдено');
+            bot.sendMessage(chatId, resStrs.tableNotFound);
             delete users[chatId];
             selectFaculty(chatId);
 
@@ -164,13 +164,13 @@ const sendWeekview = (chatId) => {
 
             if(oneDay.length === 0) {
                 freeDays++;
-                return `📌 *${resStrs.days[i]}* \n 🌅 *Свободный день!* \n`;
+                return `📌 *${resStrs.days[i]}* \n 🌅 ${resStrs.freeDay} \n`;
             }
 
             return `📌 *${resStrs.days[i]}* \n ${oneDay}`;
-        });
+        }).join('\n');
 
-        const toSend = `${text.join('\n')}${freeDays == 5 ? resStrs.empty_table : ''}`;
+        const toSend = `${text}${freeDays == 6 ? resStrs.empty_table : ''}`;
 
         //if user is still in process, then send
         if(user.inProcess) {
@@ -229,7 +229,7 @@ bot.on('message', (msg) => {
     }
 
     if(msg.text == $_.BTN_ALL_WEEKS) {
-        bot.sendMessage(chatId, 'Секундочку...', {
+        bot.sendMessage(chatId, resStrs.oneSecondPlease, {
             reply_markup: {
                 keyboard: [cancelBtn],
                 one_time_keyboard: true
