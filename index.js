@@ -186,60 +186,74 @@ const safeSelect = (chatId, selectFn) => users[chatId] === undefined ? selectFac
 
 bot.on('message', (msg) => {
     console.log("> > > ", msg.text);
-    
     const thisWeek = utils.calculateWeek();
     const chatId = msg.chat.id;
 
-    if(msg.text == $_.BTN_OK) {
-        return bot.sendMessage(chatId, '✨');
-    }
+    try {
 
-    if(msg.text == $_.BTN_CANCEL) {
-        const user = users[chatId];
-
-        if(user !== undefined) {
-            if(user.inProcess) {
-                user.inProcess = false;
-            } else {
-                delete users[chatId];
-            }
+        if(msg.text == $_.BTN_OK) {
+            return bot.sendMessage(chatId, '✨');
         }
-        return selectFaculty(chatId);
-    }
+    
+        if(msg.text == $_.BTN_CANCEL) {
+            const user = users[chatId];
+    
+            if(user !== undefined) {
+                if(user.inProcess) {
+                    user.inProcess = false;
+                } else {
+                    delete users[chatId];
+                }
+            }
+            return selectFaculty(chatId);
+        }
+    
+        if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
+            return safeSelect(chatId, selectFaculty)(chatId);
+        }
+    
+        const facultyNumber = facultiesNumbers[msg.text];
+        if(facultyNumber !== undefined) {
+            users[chatId] = {};
+            return safeSelect(chatId, selectGroup)(chatId, facultyNumber);
+        }
+    
+        const groupDetails = groupsDetails[msg.text];
+        if(groupDetails !== undefined) {
+            users[chatId].group = msg.text;
+            return safeSelect(chatId, selectWeekDefault)(chatId);
+        }
+    
+        if(msg.text == thisWeek) {
+            users[chatId].week = thisWeek;
+            return safeSelect(chatId, sendWeekview)(chatId);
+        }
 
-    if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
-        return safeSelect(chatId, selectFaculty)(chatId);
-    }
-
-    const facultyNumber = facultiesNumbers[msg.text];
-    if(facultyNumber !== undefined) {
-        users[chatId] = {};
-        return safeSelect(chatId, selectGroup)(chatId, facultyNumber);
-    }
-
-    const groupDetails = groupsDetails[msg.text];
-    if(groupDetails !== undefined) {
-        users[chatId].group = msg.text;
-        return safeSelect(chatId, selectWeekDefault)(chatId);
-    }
-
-    if(msg.text == thisWeek) {
-        users[chatId].week = thisWeek;
-        return safeSelect(chatId, sendWeekview)(chatId);
-    }
-
-    if(msg.text == $_.BTN_ALL_WEEKS) {
-        bot.sendMessage(chatId, resStrs.oneSecondPlease, {
+        if(msg.text == $_.BTN_ALL_WEEKS) {
+            bot.sendMessage(chatId, resStrs.oneSecondPlease, {
+                reply_markup: {
+                    keyboard: [cancelBtn],
+                    one_time_keyboard: true
+                }
+            });
+            return safeSelect(chatId, selectWeekAll)(chatId)
+        }
+        
+        const matchWeek = msg.text.match(utils.weekRegex);
+        if(!isEmpty(matchWeek)) {
+            users[chatId].week = msg.text;
+            return safeSelect(chatId, sendWeekview)(chatId);
+        }
+        
+        bot.sendMessage(chatId, resStrs.badMessage);
+    } catch(e) {
+        delete users[chatId];
+        bot.sendMessage(chatId, resStrs.error, {
+            parse_mode: "Markdown",
             reply_markup: {
-                keyboard: [cancelBtn],
+                keyboard: facultiesKeyboard, 
                 one_time_keyboard: true
             }
         });
-        return safeSelect(chatId, selectWeekAll)(chatId)
-    }
-
-    if(msg.text.match(utils.weekRegex).length !== 0) {
-        users[chatId].week = msg.text;
-        return safeSelect(chatId, sendWeekview)(chatId);
     }
 });
