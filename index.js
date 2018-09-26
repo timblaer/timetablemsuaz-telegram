@@ -91,7 +91,7 @@ const selectWeekAll = (chatId) => {
     })
 }
 
-const informAboutPreparation = (chatId) => bot.sendMessage(chatId, `${resStrs.prepInfoPrefix} / ${users[chatId].group} (${users[chatId].week})`, {
+const informAboutPreparation = (chatId) => bot.sendMessage(chatId, `${resStrs.prepInfoPrefix} / ${!isEmpty(users[chatId].group) ? users[chatId].group :  "N/A"} (${users[chatId].week})`, {
         reply_markup: {
             keyboard: [okBtn, cancelBtn],
             one_time_keyboard: true,
@@ -244,7 +244,7 @@ bot.on('message', (msg) => {
             users[chatId].week = msg.text;
             return safeSelect(chatId, sendWeekview)(chatId);
         }
-        
+
         bot.sendMessage(chatId, resStrs.badMessage);
     } catch(e) {
         delete users[chatId];
