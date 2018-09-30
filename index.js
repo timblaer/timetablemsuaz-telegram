@@ -33,7 +33,7 @@ const cancelBtn = [$_.BTN_CANCEL];
 const okBtn = [$_.BTN_OK];
 
 const TG_TOKEN = process.env.TG_TOKEN;
-const facultiesKeyboard = [
+const mainSelectKeyboard = [
     [$_.F_PHILOLOGY, $_.F_MATHS, $_.F_ECONOMICS],
     [$_.F_MANAGEMENT, $_.F_CHEMISTRY, $_.F_PHYSICS],
     [$_.F_PSYCHOLOGY],
@@ -42,7 +42,7 @@ const facultiesKeyboard = [
 
 const facultyKeyboardSettings = {
     reply_markup: {
-        keyboard: facultiesKeyboard,
+        keyboard: mainSelectKeyboard,
         one_time_keyboard: true
     }
 };
@@ -69,7 +69,7 @@ const getWeeklistBtns = (chatId) => {
     return Promise.resolve(actualWeekListBtns);
 };
 
-const selectFaculty = (chatId) => bot.sendMessage(chatId, resStrs.faculty, facultyKeyboardSettings);
+const mainSelectScreen = (chatId) => bot.sendMessage(chatId, resStrs.main, facultyKeyboardSettings);
 
 const selectGroup = (chatId, facultyNumber) => bot.sendMessage(chatId, resStrs.group, {
     reply_markup: {
@@ -122,7 +122,7 @@ const sendWeekview = (chatId) => {
         if(week === undefined) {
             bot.sendMessage(chatId, resStrs.tableNotFound);
             delete users[chatId];
-            selectFaculty(chatId);
+            mainSelectScreen(chatId);
 
             return null;
         }
@@ -192,7 +192,7 @@ const sendWeekview = (chatId) => {
     });
 }
 
-const safeSelect = (chatId, selectFn) => users[chatId] === undefined ? selectFaculty : selectFn;
+const safeSelect = (chatId, selectFn) => users[chatId] === undefined ? mainSelectScreen : selectFn;
 
 bot.on('message', async (msg) => {
     // console.log("> > > ", msg.text);
@@ -214,11 +214,11 @@ bot.on('message', async (msg) => {
                     delete users[chatId];
                 }
             }
-            return selectFaculty(chatId);
+            return mainSelectScreen(chatId);
         }
     
         if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
-            return safeSelect(chatId, selectFaculty)(chatId);
+            return safeSelect(chatId, mainSelectScreen)(chatId);
         }
 
         if(msg.text === $_.S_BUSES) {
@@ -272,14 +272,14 @@ bot.on('message', async (msg) => {
         if(!isAdmin) {
             bot.sendMessage(chatId, resStrs.badMessage, facultyKeyboardSettings);
         } else {
-            selectFaculty(chatId);
+            mainSelectScreen(chatId);
         }
     } catch(e) {
         delete users[chatId];
         bot.sendMessage(chatId, resStrs.error, {
             parse_mode: "Markdown",
             reply_markup: {
-                keyboard: facultiesKeyboard, 
+                keyboard: mainSelectKeyboard, 
                 one_time_keyboard: true
             }
         });
