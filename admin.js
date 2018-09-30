@@ -18,7 +18,7 @@ async function handle(bot, chatId, msg) {
     const token = splitted[1];
 
     if(token !== ADMIN_TOKEN) {
-        await Database.models.Infos.create({info: `ChatId: ${chatId} tried to gain access to admin features`});
+        await Database.models.Infos.create({info: `ChatId: ${chatId} tried to gain access to admin features`, type: "admin"});
         return false;
     }
 

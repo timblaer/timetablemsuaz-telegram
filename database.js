@@ -1,5 +1,6 @@
 const STAT_USERS  = "users";
 const STAT_GROUPS = "groups";
+const STAT_INFOS = "infos";
 
 const {DB_CREDS, DB_URL, DB_NAME} = process.env;
 
@@ -7,7 +8,7 @@ const Mongoose = require('mongoose');
 Mongoose.connect(`mongodb://${DB_CREDS}@${DB_URL}/${DB_NAME}?authSource=${DB_NAME}`);
 
 const db = Mongoose.connection;
-db.on('error', (err) => console.log("[DB] CONNECTION ERROR: ", err));
+db.on('error', (err) => console.log("[DB] CONNECTION ERROR"));
 db.once('open', () => console.log("[DB] CONNECTED"));
 
 const Users = Mongoose.model('User', new Mongoose.Schema({
@@ -19,7 +20,11 @@ const Groups = Mongoose.model('Group', new Mongoose.Schema({
 }));
 
 const Infos = Mongoose.model('Info', new Mongoose.Schema({
-    info: String
+    info: String,
+    type: {
+       type: String,
+       enum: ["query", "admin"] 
+    }
 }));
 
 async function save(type, data) {
@@ -28,6 +33,8 @@ async function save(type, data) {
             await Users.findOneAndUpdate(data, data, {upsert: true});
         } else if(type === STAT_GROUPS) {
             await Groups.findOneAndUpdate(data, data, {upsert: true});
+        } else if(type === STAT_INFOS) {
+            await Infos.create(data);
         }
     } catch(err) {
         console.log("[DB] SAVE ERROR: ", type, err);
@@ -46,6 +53,6 @@ async function get() {
 }
 
 module.exports = {
-    stats: {save, get, STAT_USERS, STAT_GROUPS},
+    stats: {save, get, STAT_USERS, STAT_GROUPS, STAT_INFOS},
     models: {Users, Groups, Infos}
 };

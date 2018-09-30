@@ -222,6 +222,7 @@ bot.on('message', async (msg) => {
         }
 
         if(msg.text === $_.S_BUSES) {
+            Database.stats.save(Database.stats.STAT_INFOS, {info: "bus", type: "query"});
             return bot.sendMessage(chatId, resStrs.busSchedule, {
                 parse_mode: "Markdown",
                 ...facultyKeyboardSettings
