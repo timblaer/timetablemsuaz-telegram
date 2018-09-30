@@ -1,14 +1,16 @@
+const Database  = require('./database.js');
+const Admin     = require('./admin.js');
+
 const isEmpty = require('lodash/isEmpty');
-const Bot = require('node-telegram-bot-api');
+const Bot     = require('node-telegram-bot-api');
 
 const utils = require('./utils.js');
+const main  = require('./requests/main');		
+const $_    = require('./consts');
 
-const main = require('./requests/main');
-const $_ = require('./consts');
-
-const groupsList = require('./groups-list.json');
+const groupsList    = require('./groups-list.json');
 const groupsDetails = require('./groups-details.json');
-const resStrs = require('./result-strings.json');
+const resStrs       = require('./result-strings.json');
 
 const users = {};
 //chatId: {group, week, inProcess}
@@ -34,8 +36,16 @@ const TG_TOKEN = process.env.TG_TOKEN;
 const facultiesKeyboard = [
     [$_.F_PHILOLOGY, $_.F_MATHS, $_.F_ECONOMICS],
     [$_.F_MANAGEMENT, $_.F_CHEMISTRY, $_.F_PHYSICS],
-    [$_.F_PSYCHOLOGY]
+    [$_.F_PSYCHOLOGY],
+    [$_.S_BUSES]
 ];
+
+const facultyKeyboardSettings = {
+    reply_markup: {
+        keyboard: facultiesKeyboard,
+        one_time_keyboard: true
+    }
+};
 
 const bot = new Bot(TG_TOKEN, {polling: true});
 
@@ -59,12 +69,7 @@ const getWeeklistBtns = (chatId) => {
     return Promise.resolve(actualWeekListBtns);
 };
 
-const selectFaculty = (chatId) => bot.sendMessage(chatId, resStrs.faculty, {
-    reply_markup: {
-        keyboard: facultiesKeyboard, 
-        one_time_keyboard: true
-    }
-});
+const selectFaculty = (chatId) => bot.sendMessage(chatId, resStrs.faculty, facultyKeyboardSettings);
 
 const selectGroup = (chatId, facultyNumber) => bot.sendMessage(chatId, resStrs.group, {
     reply_markup: {
@@ -139,10 +144,13 @@ const sendWeekview = (chatId) => {
         const parsed = data.parsed;
         if(parsed.error === 'empty_table') {
             if(user.inProcess) {
-                bot.sendMessage(chatId, resStrs.empty_table, {parse_mode: "Markdown"});
+                bot.sendMessage(chatId, resStrs.empty_table, {
+                    parse_mode: "Markdown",
+                    ...facultyKeyboardSettings
+                });
             }
 
-            return selectFaculty(chatId);
+            return;
         }
 
         const text = parsed.map((day, i) => {
@@ -174,8 +182,10 @@ const sendWeekview = (chatId) => {
 
         //if user is still in process, then send
         if(user.inProcess) {
-            bot.sendMessage(chatId, toSend, {parse_mode: 'Markdown'});
-            return selectFaculty(chatId);
+            return bot.sendMessage(chatId, toSend, {
+                parse_mode: 'Markdown',
+                ...facultyKeyboardSettings
+            });
         }
 
         delete users[chatId];
@@ -184,13 +194,12 @@ const sendWeekview = (chatId) => {
 
 const safeSelect = (chatId, selectFn) => users[chatId] === undefined ? selectFaculty : selectFn;
 
-bot.on('message', (msg) => {
-    console.log("> > > ", msg.text);
+bot.on('message', async (msg) => {
+    // console.log("> > > ", msg.text);
     const thisWeek = utils.calculateWeek();
     const chatId = msg.chat.id;
 
     try {
-
         if(msg.text == $_.BTN_OK) {
             return bot.sendMessage(chatId, '✨');
         }
@@ -211,15 +220,26 @@ bot.on('message', (msg) => {
         if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
             return safeSelect(chatId, selectFaculty)(chatId);
         }
+
+        if(msg.text === $_.S_BUSES) {
+            return bot.sendMessage(chatId, resStrs.busSchedule, {
+                parse_mode: "Markdown",
+                ...facultyKeyboardSettings
+            });
+        }
     
         const facultyNumber = facultiesNumbers[msg.text];
         if(facultyNumber !== undefined) {
+            Database.stats.save(Database.stats.STAT_USERS, {chatId});
+
             users[chatId] = {};
             return safeSelect(chatId, selectGroup)(chatId, facultyNumber);
         }
     
         const groupDetails = groupsDetails[msg.text];
         if(groupDetails !== undefined) {
+            Database.stats.save(Database.stats.STAT_GROUPS, {groupId: msg.text});
+
             users[chatId].group = msg.text;
             return safeSelect(chatId, selectWeekDefault)(chatId);
         }
@@ -242,10 +262,17 @@ bot.on('message', (msg) => {
         const matchWeek = msg.text.match(utils.weekRegex);
         if(!isEmpty(matchWeek)) {
             users[chatId].week = msg.text;
+
+            console.log(users[chatId]);
             return safeSelect(chatId, sendWeekview)(chatId);
         }
 
-        bot.sendMessage(chatId, resStrs.badMessage);
+        const isAdmin = await Admin.handle(bot, chatId, msg.text);
+        if(!isAdmin) {
+            bot.sendMessage(chatId, resStrs.badMessage, facultyKeyboardSettings);
+        } else {
+            selectFaculty(chatId);
+        }
     } catch(e) {
         delete users[chatId];
         bot.sendMessage(chatId, resStrs.error, {
