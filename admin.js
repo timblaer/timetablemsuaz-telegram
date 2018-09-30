@@ -1,14 +1,19 @@
 const Database = require('./database.js');
 const {Users, Groups} = Database.models;
 
-const {ADMIN_TOKEN} = process.env;
-const {badMessage, adminGreeting} = require('./result-strings.json');
+const isEmpty = require('lodash/isEmpty');
 
+const {ADMIN_TOKEN} = process.env;
+const {adminGreeting} = require('./result-strings.json');
 
 const GET_STATS = "stats";
 const BROADCAST = "broadcast";
 
 async function handle(bot, chatId, msg) {
+    if(isEmpty(ADMIN_TOKEN)) {
+        return false;
+    }
+    
     const splitted = msg.split(" ");
 
     if(splitted[0] !== "/admin") {
