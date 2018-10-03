@@ -1,5 +1,6 @@
 const Database  = require('./database.js');
 const Admin     = require('./admin.js');
+const Custom    = require('./custom.js');
 
 const isEmpty = require('lodash/isEmpty');
 const Bot     = require('node-telegram-bot-api');
@@ -37,7 +38,7 @@ const mainSelectKeyboard = [
     [$_.F_PHILOLOGY, $_.F_MATHS, $_.F_ECONOMICS],
     [$_.F_MANAGEMENT, $_.F_CHEMISTRY, $_.F_PHYSICS],
     [$_.F_PSYCHOLOGY],
-    [$_.S_BUSES]
+    [$_.S_BUSES, $_.S_EVENTS, $_.S_GAMES]
 ];
 
 const facultyKeyboardSettings = {
@@ -215,6 +216,22 @@ bot.on('message', async (msg) => {
                 }
             }
             return mainSelectScreen(chatId);
+        }
+
+        if(msg.text == $_.S_EVENTS) {
+            const events = await Database.models.Events.find({}).limit(10).sort({date: -1});
+            return bot.sendMessage(chatId, Custom.events.prettyPrint(events), {
+                parse_mode: 'Markdown',
+                ...facultyKeyboardSettings
+            });
+        }
+
+        if(msg.text == $_.S_GAMES) {
+            const events = await Database.models.Games.find({}).limit(10).sort({date: -1});
+            return bot.sendMessage(chatId, Custom.games.prettyPrint(events), {
+                parse_mode: 'Markdown',
+                ...facultyKeyboardSettings
+            });
         }
     
         if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {

@@ -27,6 +27,24 @@ const Infos = Mongoose.model('Info', new Mongoose.Schema({
     }
 }));
 
+const Events = Mongoose.model('Event', new Mongoose.Schema({
+    title: String,
+    date: Date,
+    place: String,
+    addedBy: String
+}));
+
+const Games = Mongoose.model('Game', new Mongoose.Schema({
+    title: String,
+    date: Date,
+    type: {
+        type: String,
+        enum: ['f', 'v', 'b', 'c', 'o'], //football, volleyball, basketball, chgk, other
+    },
+    place: String,
+    addedBy: String
+}));
+
 async function save(type, data) {
     try {
         if(type === STAT_USERS) {
@@ -54,5 +72,5 @@ async function get() {
 
 module.exports = {
     stats: {save, get, STAT_USERS, STAT_GROUPS, STAT_INFOS},
-    models: {Users, Groups, Infos}
+    models: {Users, Groups, Infos, Events, Games}
 };

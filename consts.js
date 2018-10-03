@@ -27,5 +27,7 @@ module.exports = {
     BTN_CANCEL: 'Отмена',
     BTN_ALL_WEEKS: 'Все недели',
 
-    S_BUSES: 'Автобусы'
+    S_BUSES: 'Автобусы',
+    S_EVENTS: 'События',
+    S_GAMES: 'Игры'
 }
