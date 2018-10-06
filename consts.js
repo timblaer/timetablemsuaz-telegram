@@ -29,5 +29,10 @@ module.exports = {
 
     S_BUSES: 'Автобусы',
     S_EVENTS: 'События',
-    S_GAMES: 'Игры'
+    S_SPORTS: 'Игры',
+    S_CHGK: 'ЧГК',
+
+    EVENTS_TYPES: ['e', 'o'],
+    GAMES_TYPES: ['f', 'v', 'b'], 
+    CHGK_TYPE: 'c'
 }

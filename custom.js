@@ -5,18 +5,10 @@ moment.locale('ru');
 
 const formatStr = 'DD MMMM YYYY в hh:mm';
 
-const events = {
-    prettyPrint: (events) => events.map(e => `🌟 *${e.title}*\n📅 ${moment(e.date).format(formatStr)}\n📍 ${e.place}\n`).join('\n') || '[Пусто]'
-}
-
-const games = {
-    prettyPrint: (events) => events.map(e => {
-        const gameIcon = resStrs.gamesTypes[e.type];
-        return `${gameIcon} *${e.title}*\n📅 ${moment(e.date).format(formatStr)}\n📍 ${e.place}\n`
-    }).join('\n')  || '[Пусто]'
-}
+const prettyPrint = (events) => events
+                                .map(e => `${resStrs.eventTypes[e.type]} *${e.title}*\n📅 ${moment(e.date).format(formatStr)}\n📍 ${e.place}\n`)
+                                .join('\n') || '[Пусто]';
 
 module.exports = {
-    events,
-    games
+    prettyPrint
 }

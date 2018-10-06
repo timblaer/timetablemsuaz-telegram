@@ -37,8 +37,8 @@ const TG_TOKEN = process.env.TG_TOKEN;
 const mainSelectKeyboard = [
     [$_.F_PHILOLOGY, $_.F_MATHS, $_.F_ECONOMICS],
     [$_.F_MANAGEMENT, $_.F_CHEMISTRY, $_.F_PHYSICS],
-    [$_.F_PSYCHOLOGY],
-    [$_.S_BUSES, $_.S_EVENTS, $_.S_GAMES]
+    [$_.F_PSYCHOLOGY, $_.S_BUSES],
+    [$_.S_EVENTS, $_.S_SPORTS, $_.S_CHGK]
 ];
 
 const facultyKeyboardSettings = {
@@ -219,16 +219,24 @@ bot.on('message', async (msg) => {
         }
 
         if(msg.text == $_.S_EVENTS) {
-            const events = await Database.models.Events.find({}).limit(10).sort({date: -1});
-            return bot.sendMessage(chatId, Custom.events.prettyPrint(events), {
+            const events = await Database.models.Events.find({type: {$in: $_.EVENTS_TYPES}}).limit(10).sort({date: -1});
+            return bot.sendMessage(chatId, Custom.prettyPrint(events), {
                 parse_mode: 'Markdown',
                 ...facultyKeyboardSettings
             });
         }
 
-        if(msg.text == $_.S_GAMES) {
-            const events = await Database.models.Games.find({}).limit(10).sort({date: -1});
-            return bot.sendMessage(chatId, Custom.games.prettyPrint(events), {
+        if(msg.text == $_.S_SPORTS) {
+            const events = await Database.models.Events.find({type: {$in: $_.GAMES_TYPES}}).limit(10).sort({date: -1});
+            return bot.sendMessage(chatId, Custom.prettyPrint(events), {
+                parse_mode: 'Markdown',
+                ...facultyKeyboardSettings
+            });
+        }
+
+        if(msg.text == $_.S_CHGK) {
+            const events = await Database.models.Events.find({type: $_.CHGK_TYPE}).limit(10).sort({date: -1});
+            return bot.sendMessage(chatId, Custom.prettyPrint(events), {
                 parse_mode: 'Markdown',
                 ...facultyKeyboardSettings
             });
