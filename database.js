@@ -12,7 +12,12 @@ db.on('error', (err) => console.log("[DB] CONNECTION ERROR"));
 db.once('open', () => console.log("[DB] CONNECTED"));
 
 const Users = Mongoose.model('User', new Mongoose.Schema({
-    chatId: String
+    chatId: String,
+    subscriptions: {
+        type: Array,
+        default: [],
+        required: true
+    }
 }));
 
 const Groups = Mongoose.model('Group', new Mongoose.Schema({
@@ -23,7 +28,7 @@ const Infos = Mongoose.model('Info', new Mongoose.Schema({
     info: String,
     type: {
        type: String,
-       enum: ["query", "admin"] 
+       enum: ["query", "admin", "editor"] 
     }
 }));
 
@@ -37,7 +42,6 @@ const Events = Mongoose.model('Event', new Mongoose.Schema({
     place: String,
     addedBy: String
 }));
-
 
 async function save(type, data) {
     try {

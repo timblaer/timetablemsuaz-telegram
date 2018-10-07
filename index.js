@@ -1,6 +1,8 @@
 const Database  = require('./database.js');
 const Admin     = require('./admin.js');
+const Editor    = require('./editor.js');
 const Custom    = require('./custom.js');
+const Subscriptions = require('./subscriptions');
 
 const isEmpty = require('lodash/isEmpty');
 const Bot     = require('node-telegram-bot-api');
@@ -38,7 +40,7 @@ const mainSelectKeyboard = [
     [$_.F_PHILOLOGY, $_.F_MATHS, $_.F_ECONOMICS],
     [$_.F_MANAGEMENT, $_.F_CHEMISTRY, $_.F_PHYSICS],
     [$_.F_PSYCHOLOGY, $_.S_BUSES],
-    [$_.S_EVENTS, $_.S_SPORTS, $_.S_CHGK]
+    [$_.S_EVENTS, $_.S_SPORTS, $_.S_CHGK, $_.S_INFO]
 ];
 
 const facultyKeyboardSettings = {
@@ -218,8 +220,15 @@ bot.on('message', async (msg) => {
             return mainSelectScreen(chatId);
         }
 
+        if(msg.text == $_.S_INFO) {
+            return bot.sendMessage(chatId, resStrs.info, {
+                parse_mode: "Markdown",
+                ...facultyKeyboardSettings
+            })
+        }
+
         if(msg.text == $_.S_EVENTS) {
-            const events = await Database.models.Events.find({type: {$in: $_.EVENTS_TYPES}}).limit(10).sort({date: -1});
+            const events = await Custom.getComplex($_.EVENTS_TYPES);
             return bot.sendMessage(chatId, Custom.prettyPrint(events), {
                 parse_mode: 'Markdown',
                 ...facultyKeyboardSettings
@@ -227,7 +236,7 @@ bot.on('message', async (msg) => {
         }
 
         if(msg.text == $_.S_SPORTS) {
-            const events = await Database.models.Events.find({type: {$in: $_.GAMES_TYPES}}).limit(10).sort({date: -1});
+            const events = await Custom.getComplex($_.SPORTS_TYPES);
             return bot.sendMessage(chatId, Custom.prettyPrint(events), {
                 parse_mode: 'Markdown',
                 ...facultyKeyboardSettings
@@ -235,11 +244,29 @@ bot.on('message', async (msg) => {
         }
 
         if(msg.text == $_.S_CHGK) {
-            const events = await Database.models.Events.find({type: $_.CHGK_TYPE}).limit(10).sort({date: -1});
+            const events = await Custom.getSimple($_.CHGK_TYPE);
             return bot.sendMessage(chatId, Custom.prettyPrint(events), {
                 parse_mode: 'Markdown',
                 ...facultyKeyboardSettings
             });
+        }
+
+        const isSubscription = await Subscriptions.handle(bot, chatId, msg.text, {
+            parse_mode: 'Markdown',
+            ...facultyKeyboardSettings
+        });
+
+        if(isSubscription) {
+            return;
+        }
+
+        const isEditor = await Editor.handle(bot, chatId, msg.text, {
+            parse_mode: 'Markdown',
+            ...facultyKeyboardSettings
+        });
+
+        if(isEditor) {
+            return bot.sendMessage(chatId, resStrs.main, facultyKeyboardSettings);
         }
     
         if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
@@ -301,6 +328,7 @@ bot.on('message', async (msg) => {
         }
     } catch(e) {
         delete users[chatId];
+        console.log(e);
         bot.sendMessage(chatId, resStrs.error, {
             parse_mode: "Markdown",
             reply_markup: {

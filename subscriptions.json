@@ -1,0 +1,5 @@
+{
+    "/events": "EVENTS_TYPES",
+    "/sports": "SPORTS_TYPES",
+    "/chgk": "CHGK_TYPE"
+}
