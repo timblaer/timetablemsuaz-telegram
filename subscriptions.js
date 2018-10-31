@@ -12,6 +12,8 @@ async function handle (bot, chatId, msg, defaultKeyboardSettings) {
     const types = $_[subsMap[msg]];
 
     let action;
+  
+    if(user === null) return false;
 
     if(isArray(types)) {
         action = !isEmpty(types.filter(t => user.subscriptions.indexOf(t) > -1));
