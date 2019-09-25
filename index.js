@@ -7,7 +7,7 @@ const Subscriptions = require('./subscriptions');
 const isEmpty = require('lodash/isEmpty');
 const Bot     = require('node-telegram-bot-api');
 
-const utils = require('./utils.js');
+const utils = require('./Lib/utils.js');
 const main  = require('./requests/main');		
 const $_    = require('./consts');
 
@@ -194,7 +194,6 @@ const sendWeekview = (chatId) => {
         delete users[chatId];
     });
 }
-
 const safeSelect = (chatId, selectFn) => users[chatId] === undefined ? mainSelectScreen : selectFn;
 
 bot.on('message', async (msg) => {
@@ -221,7 +220,7 @@ bot.on('message', async (msg) => {
         }
 
         if(msg.text == $_.S_INFO) {
-            return bot.sendMessage(chatId, resStrs.info, {
+            return await bot.sendMessage(chatId, resStrs.info, {
                 parse_mode: "Markdown",
                 ...facultyKeyboardSettings
             })
@@ -268,19 +267,19 @@ bot.on('message', async (msg) => {
         if(isEditor) {
             return bot.sendMessage(chatId, resStrs.main, facultyKeyboardSettings);
         }
-    
+
         if(msg.text == '/start' || msg.text == $_.BTN_CANCEL) {
             return safeSelect(chatId, mainSelectScreen)(chatId);
         }
 
         if(msg.text === $_.S_BUSES) {
-            Database.stats.save(Database.stats.STAT_INFOS, {info: "bus", type: "query"});
-            return bot.sendMessage(chatId, resStrs.busSchedule, {
+            await Database.stats.save(Database.stats.STAT_INFOS, {info: "bus", type: "query"});
+            return await bot.sendMessage(chatId, resStrs.busSchedule, {
                 parse_mode: "Markdown",
                 ...facultyKeyboardSettings
             });
         }
-    
+
         const facultyNumber = facultiesNumbers[msg.text];
         if(facultyNumber !== undefined) {
             Database.stats.save(Database.stats.STAT_USERS, {chatId});
@@ -288,7 +287,7 @@ bot.on('message', async (msg) => {
             users[chatId] = {};
             return safeSelect(chatId, selectGroup)(chatId, facultyNumber);
         }
-    
+
         const groupDetails = groupsDetails[msg.text];
         if(groupDetails !== undefined) {
             Database.stats.save(Database.stats.STAT_GROUPS, {groupId: msg.text});
@@ -296,7 +295,7 @@ bot.on('message', async (msg) => {
             users[chatId].group = msg.text;
             return safeSelect(chatId, selectWeekDefault)(chatId);
         }
-    
+
         if(msg.text == thisWeek) {
             users[chatId].week = thisWeek;
             return safeSelect(chatId, sendWeekview)(chatId);
@@ -311,7 +310,7 @@ bot.on('message', async (msg) => {
             });
             return safeSelect(chatId, selectWeekAll)(chatId)
         }
-        
+
         const matchWeek = msg.text.match(utils.weekRegex);
         if(!isEmpty(matchWeek)) {
             users[chatId].week = msg.text;
@@ -322,14 +321,14 @@ bot.on('message', async (msg) => {
 
         const isAdmin = await Admin.handle(bot, chatId, msg.text);
         if(!isAdmin) {
-            bot.sendMessage(chatId, resStrs.badMessage, facultyKeyboardSettings);
+            await bot.sendMessage(chatId, resStrs.badMessage, facultyKeyboardSettings);
         } else {
             mainSelectScreen(chatId);
         }
     } catch(e) {
         delete users[chatId];
         console.log(e);
-        bot.sendMessage(chatId, resStrs.error, {
+        await bot.sendMessage(chatId, resStrs.error, {
             parse_mode: "Markdown",
             reply_markup: {
                 keyboard: mainSelectKeyboard, 

@@ -1,0 +1,236 @@
+{
+  "219": {
+    "prof_id": 10,
+    "course_id": 1
+  },
+  "218": {
+    "prof_id": 10,
+    "course_id": 2
+  },
+  "217": {
+    "prof_id": 10,
+    "course_id": 3
+  },
+  "216": {
+    "prof_id": 10,
+    "course_id": 4
+  },
+  "M219": {
+    "prof_id": 28,
+    "course_id": 1
+  },
+  "M218": {
+    "prof_id": 28,
+    "course_id": 1
+  },
+  "519 EK":  {
+    "prof_id": 2,
+    "course_id": 1
+  },
+  "518 EK":  {
+    "prof_id":  2,
+    "course_id":  2
+  },
+  "517 EK":  {
+    "prof_id":  2,
+    "course_id":  3
+  },
+  "516 EK":  {
+    "prof_id":  2,
+    "course_id":  4
+  },
+  "519 MN":  {
+    "prof_id": 1,
+    "course_id": 1
+  },
+  "518 MN":  {
+    "prof_id": 1,
+    "course_id": 2
+  },
+  "517 MN":  {
+    "prof_id": 1,
+    "course_id": 3
+  },
+  "516 MN":  {
+    "prof_id": 1,
+    "course_id": 4
+  },
+  "M519 MN":  {
+    "prof_id": 30,
+    "course_id": 1
+  },
+  "M518 MN":  {
+    "prof_id": 30,
+    "course_id": 2
+  },
+  "319":  {
+    "prof_id": 11,
+    "course_id": 1
+  },
+  "318":  {
+    "prof_id":  11,
+    "course_id": 2
+  },
+  "317":  {
+    "prof_id":  11,
+    "course_id": 3
+  },
+  "316 FX":  {
+    "prof_id": 12,
+    "course_id": 4
+  },
+  "316 NX": {
+    "prof_id": 12,
+    "course_id": 4
+  },
+  "316 ORG":  {
+    "profId": 13,
+    "courseId": 4
+  },
+  "M319 FX": {
+    "profId": 17,
+    "courseId": 1
+  },
+  "M319 ORG": {
+    "profId": 18,
+    "courseId": 1
+  },
+  "M319 NX": {
+    "profId": 19,
+    "courseId": 1
+  },
+  "M318 NX": {
+    "profId": 19,
+    "courseId": 2
+  },
+  "M318 FX":  {
+    "profId": 17,
+    "courseId": 2
+  },
+  "M318 ORG": {
+    "profId": 18,
+    "courseId": 2
+  },
+
+  "619":  {
+    "prof_id": 29,
+    "course_id": 1
+  },
+  "618":  {
+    "prof_id":  29,
+    "course_id": 2
+  },
+  "617":  {
+    "prof_id":  29,
+    "course_id": 3
+  },
+  "616":  {
+    "prof_id":  29,
+    "course_id": 4
+  },
+
+  "419":  {
+    "prof_id": 8,
+    "course_id": 1
+  },
+  "418":  {
+    "prof_id": 8,
+    "course_id": 2
+  },
+  "417":  {
+    "prof_id": 8,
+    "course_id": 3
+  },
+  "416":  {
+    "prof_id": 8,
+    "course_id": 4
+  },
+  "M419 KL":  {
+    "prof_id": 32,
+    "course_id": 1
+  },
+  "M419 PR":  {
+    "prof_id": 31,
+    "course_id": 1
+  },
+  "M418 PR":  {
+    "prof_id": 31,
+    "course_id": 2
+  },
+  "M418 SP":  {
+    "prof_id": 21,
+    "course_id": 2
+  },
+  "M118 RU": {
+    "profId": 22,
+    "courseId": 2
+  },
+  "M119 RU": {
+    "profId": 22,
+    "courseId": 2
+  },
+  "M118 SPA": {
+    "profId": 25,
+    "courseId": 2
+  },
+  "M118 FRA": {
+    "profId": 26,
+    "courseId": 2
+  },
+  "M119 ENG": {
+    "profId": 23,
+    "courseId": 1
+  },
+  "M119 ITA": {
+    "profId": 24,
+    "courseId": 1
+  },
+  "117 RU": {
+    "profId": 3,
+    "courseId": 2
+  },
+  "116 RU": {
+    "profId": 3,
+    "courseId": 3
+  },
+  "115 RU": {
+    "profId": 3,
+    "courseId": 4
+  },
+  "118 RU": {
+    "profId": 3,
+    "courseId": 1
+  },
+  "116 SPA": {
+    "profId": 4,
+    "courseId": 3
+  },
+  "118 SPA": {
+    "profId": 4,
+    "courseId": 2
+  },
+  "116 FRA": {
+    "profId": 5,
+    "courseId": 4
+  },
+  "118 FRA": {
+    "profId": 5,
+    "courseId": 2
+  },
+  "117 ENG": {
+    "profId": 6,
+    "courseId": 3
+  },
+  "119 ENG": {
+    "profId": 6,
+    "courseId": 1
+  },
+  "117 ITA": {
+    "profId": 7,
+    "courseId": 3
+  },
+  "119 ITA": {
+    "profId": 7,
+    "courseId": 1
+  }
+}

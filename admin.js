@@ -27,7 +27,7 @@ async function handle(bot, chatId, msg) {
         return false;
     }
 
-    bot.sendMessage(chatId, adminGreeting);
+    await bot.sendMessage(chatId, adminGreeting);
 
     const command = splitted[2];
     const arg = splitted.slice(3).join(" ");

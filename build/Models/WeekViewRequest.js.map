@@ -1,0 +1,1 @@
+{"version":3,"file":"WeekViewRequest.js","sourceRoot":"","sources":["../../Models/WeekViewRequest.ts"],"names":[],"mappings":";;AAAA;IAMI,yBAAY,OAAc,EAAE,SAAgB,EAAE,OAAc;QACxD,IAAI,CAAC,MAAM,GAAG,EAAE,CAAC;QACjB,IAAI,CAAC,QAAQ,GAAG,EAAE,CAAC;QACnB,IAAI,CAAC,MAAM,GAAG,EAAE,CAAC;QACjB,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACnB,CAAC;IACL,sBAAC;AAAD,CAAC,AAZD,IAYC"}
