@@ -8,8 +8,12 @@ const go = (method, url, cookie, body, options = {}) => {
     const fetchParams = {
         method,
         headers,
-        ...options
+        ...options,
+
+        redirect: 'manual'
     };
+
+    console.log("*");
 
     if(!isEmpty(cookie)) {
         headers['Cookie'] = cookie;
@@ -19,6 +23,7 @@ const go = (method, url, cookie, body, options = {}) => {
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
         fetchParams.body = body;
     }
+
     return fetch(url, fetchParams);
 }
 

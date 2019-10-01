@@ -8,8 +8,12 @@ const go = (method, url, cookie, body, options = {}) => {
     const fetchParams = {
         method,
         headers,
-        ...options
+        ...options,
+
+        redirect: 'manual'
     };
+
+    console.log("*");
 
     if(!isEmpty(cookie)) {
         headers['Cookie'] = cookie;

@@ -66,7 +66,6 @@ var Client = (function () {
                         cookie = setCookie.slice(0, setCookie.indexOf(";") + 1);
                         console.log("Status", step_1.status);
                         location = step_1.headers.get("location");
-                        console.log("Headers", step_1.headers);
                         if (isEmpty(location)) {
                             throw "InvalidCreds";
                         }

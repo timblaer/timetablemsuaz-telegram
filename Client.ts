@@ -33,7 +33,7 @@ export default class Client {
         console.log("Status", step_1.status);
 
         const location = step_1.headers.get("location");
-        console.log("Headers", step_1.headers);
+        // console.log("Headers", step_1.headers);
         if(isEmpty(location)) {
             throw "InvalidCreds";
         }
