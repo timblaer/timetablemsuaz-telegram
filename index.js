@@ -15,8 +15,7 @@ const groupsList    = require('./groups-list.json');
 const groupsDetails = require('./groups-details.json');
 const resStrs       = require('./result-strings.json');
 
-const healthCheck = require('./healthcheck.js');
-
+const healthCheck = require("./healthcheck.js");
 healthCheck();
 
 const users = {};
