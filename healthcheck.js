@@ -9,8 +9,12 @@ const calcUptime = () => {
         return `${diff / 1000} sec`
     }
 
-    if(diff > 60000) {
+    if(diff > 60000 && diff < 360000) {
         return `${diff / 60000} min`
+    }
+
+    if(diff > 360000) {
+        return `${diff / 360000} hrs`
     }
 }
 
@@ -19,6 +23,7 @@ module.exports = function() {
     setInterval(async() => {
         console.log(" > Check!");
         console.log(" > Uptime ", calcUptime());
+        console.log(" > Checking on ... ", process.env.SELF_URL);
         await fetch(process.env.SELF_URL);
     }, 120000);
 }
